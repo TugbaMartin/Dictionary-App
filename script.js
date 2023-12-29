@@ -1,9 +1,11 @@
 const url = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 const result = document.getElementById("result");
 const sound = document.getElementById("sound");
-const btn = document.getElementById("search-btn");
+const form = document.getElementById("dictionaryForm");
 
-btn.addEventListener("click", () => {
+form.addEventListener("submit", (event) => {
+    event.preventDefault(); // Prevent form submission and page refresh
+
     let inpWord = document.getElementById("input-text").value;
 
     fetch(`${url}${inpWord}`)
@@ -15,7 +17,8 @@ btn.addEventListener("click", () => {
                 const audioSrc = data[0].phonetics[0].audio;
                 if (audioSrc) {
                     sound.src = audioSrc;
-                    playSound(); // I found this part with ChatGPT :)
+                    sound.load(); // Load audio
+                    sound.play(); // Play audio
                 }
             }
 
@@ -23,7 +26,7 @@ btn.addEventListener("click", () => {
             result.innerHTML = `
                 <div class="word">
                     <h4>${inpWord}</h4>
-                    <button onclick="playSound()">
+                    <button onclick="playAudio()">
                         <i class="fa-solid fa-volume-high"></i>
                     </button>
                 </div>
@@ -39,13 +42,15 @@ btn.addEventListener("click", () => {
                 </p>
             `;
         })
-        .catch(() => {
+        .catch((error) => {
+            console.error("Error fetching data:", error);
             result.innerHTML = `<h4 class="error">Couldn't Find The Word</h4>`;
         });
 });
 
-function playSound() {
+function playAudio() {
     if (sound.src) {
-        sound.play();
+        sound.load(); // Load audio
+        sound.play(); // Play audio
     }
 }
