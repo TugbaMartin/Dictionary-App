@@ -4,7 +4,7 @@ const sound = document.getElementById("sound");
 const form = document.getElementById("dictionaryForm");
 
 form.addEventListener("submit", (event) => {
-    event.preventDefault(); // Prevent form submission and page refresh
+    event.preventDefault();
 
     let inpWord = document.getElementById("input-text").value;
 
@@ -50,7 +50,7 @@ form.addEventListener("submit", (event) => {
 
 function playAudio() {
     if (sound.src) {
-        sound.load(); // Load audio
-        sound.play(); // Play audio
+        sound.load(); 
+        sound.play(); 
     }
 }
